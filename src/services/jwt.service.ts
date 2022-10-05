@@ -1,7 +1,7 @@
-import { injectable, /* inject, */ BindingScope, service } from '@loopback/core';
-import { Keys } from '../config/keys';
+import { injectable, /* inject, */ BindingScope, service } from '@loopback/core'
+import { Keys } from '../config/keys'
 // TODO?[04]: Importación de módulo instalado 'jsonweb'.
-var JWT = require('jsonwebtoken');
+var JWT = require('jsonwebtoken')
 
 @injectable({ scope: BindingScope.TRANSIENT })
 export class JwtService {
@@ -26,10 +26,10 @@ export class JwtService {
   // TODO?[07]: Creación de funcionalidad de generación de JWT.
   crearToken(datos: object): string {
     try {
-      var token = JWT.sign(datos, Keys.JWTsecretKey);
-      return token;
+      var token = JWT.sign(datos, Keys.JWTsecretKey)
+      return token
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 
@@ -38,15 +38,15 @@ export class JwtService {
  * @param token token a validar.
  * @returns boolean con la respuesta.
  */
-  validarToken(token: string): Boolean {
+  validarToken(token: string): string {
     try {
-      let datos = JWT.verify(token, Keys.JWTsecretKey);
-      console.log('Datos rol:', datos.rol);
-      // return datos.rol;
-      return true
+      let datos = JWT.verify(token, Keys.JWTsecretKey)
+      // return true
+      console.log('DatosRol:', datos.rol)
+      return datos.rol /* Al verificarlo le sacamos la información, toda para sacar su rol. */
     } catch (error) {
-      // return "";
-      return false
+      // return ""
+      return 'Error tipo' + error
     }
   }
 }

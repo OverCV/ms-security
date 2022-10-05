@@ -44,15 +44,12 @@ export class SeguridadUsuarioService {
       let datos = {
         nombre: `${usuarioValido.nombres} ${usuarioValido.apellidos}`,
         correo: usuarioValido.correo,
-        rol: usuarioValido.rolID
+        rol: usuarioValido.rolId
       }
       let token = this.servicioJWT.crearToken(datos)
-      res = token
-      // console.log(res)
-      return res
-
+      return token
     }
-    return ""
+    return ''
   }
 
   /**

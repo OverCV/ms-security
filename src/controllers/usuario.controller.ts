@@ -142,7 +142,7 @@ export class UsuarioController {
   async validateJWT(
     @param.path.string('jwt') jwt: string
     // @param.filter(Usuario, { exclude: 'where' }) filter?: FilterExcludingWhere<Usuario>
-  ): Promise<Boolean> {
+  ): Promise<string> {
     let estado = this.servicioJWT.validarToken(jwt)
     return estado
   }
