@@ -1,4 +1,5 @@
 import { injectable, /* inject, */ BindingScope, service } from '@loopback/core';
+import { Keys } from '../config/keys';
 // TODO?[04]: Importación de módulo instalado 'jsonweb'.
 var JWT = require('jsonwebtoken');
 
@@ -33,17 +34,19 @@ export class JwtService {
   }
 
   /**
- * Se valida un token si es correcto o no
- * @param token token a validar
- * @returns boolean con la respuesta
+ * Se valida un token si es correcto o no.
+ * @param token token a validar.
+ * @returns boolean con la respuesta.
  */
-  validarToken(token: string): string {
+  validarToken(token: string): Boolean {
     try {
       let datos = JWT.verify(token, Keys.JWTsecretKey);
-      console.log(datos.rol);
-      return datos.rol;
+      console.log('Datos rol:', datos.rol);
+      // return datos.rol;
+      return true
     } catch (error) {
-      return "";
+      // return "";
+      return false
     }
   }
 }

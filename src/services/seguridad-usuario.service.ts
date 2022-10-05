@@ -48,7 +48,8 @@ export class SeguridadUsuarioService {
       }
       let token = this.servicioJWT.crearToken(datos)
       res = token
-      console.log(res)
+      // console.log(res)
+      return res
 
     }
     return ""

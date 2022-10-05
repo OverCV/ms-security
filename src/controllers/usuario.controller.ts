@@ -21,7 +21,7 @@ import {
 } from '@loopback/rest';
 import { Credenciales, Usuario } from '../models';
 import { UsuarioRepository } from '../repositories';
-import { SeguridadUsuarioService } from '../services';
+import { JwtService, SeguridadUsuarioService } from '../services';
 
 export class UsuarioController {
   constructor(
@@ -29,7 +29,11 @@ export class UsuarioController {
     public usuarioRepository: UsuarioRepository,
 
     @service(SeguridadUsuarioService)
-    private servicioSeguridad: SeguridadUsuarioService
+    private servicioSeguridad: SeguridadUsuarioService,
+
+    // TODO?[15]: Inyectar servicio JWT Service.
+    @service(JwtService)
+    private servicioJWT: JwtService
   ) { }
 
   @post('/usuarios')
@@ -56,7 +60,7 @@ export class UsuarioController {
 
     return this.usuarioRepository.create(usuario);
     console.log('Notificación al usario via mail con clave generada');
-    
+
     usuario.clave = claveCifrada
   }
 
@@ -124,6 +128,25 @@ export class UsuarioController {
     return this.usuarioRepository.findById(id, filter);
   }
 
+  // TODO?[14]: Creación validador de token.
+  @get('/validate-token/{jwt}')
+  @response(200, {
+    description: 'Validar un token de JWT',
+    content: {
+      'application/json': {
+        // schema: getModelSchemaRef(Usuario, { includeRelations: true }),
+        schema: getModelSchemaRef(Object)
+      },
+    },
+  })
+  async validateJWT(
+    @param.path.string('jwt') jwt: string
+    // @param.filter(Usuario, { exclude: 'where' }) filter?: FilterExcludingWhere<Usuario>
+  ): Promise<Boolean> {
+    let estado = this.servicioJWT.validarToken(jwt)
+    return estado
+  }
+
   @patch('/usuarios/{id}')
   @response(204, {
     description: 'Usuario PATCH success',
@@ -165,7 +188,7 @@ export class UsuarioController {
   @post('/login')
   @response(200, {
     description: 'Identificación de Usuarios',
-    content: {'application/json': {schema: getModelSchemaRef(Credenciales)}},
+    content: { 'application/json': { schema: getModelSchemaRef(Credenciales) } },
   })
   async identificar(
     @requestBody({
