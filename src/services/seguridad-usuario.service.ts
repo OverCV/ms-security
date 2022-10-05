@@ -1,8 +1,11 @@
-import { /* inject, */ BindingScope, injectable, service} from '@loopback/core';
-import {repository} from '@loopback/repository';
-import {Credenciales} from '../models';
-import {UsuarioRepository} from '../repositories';
-import {JwtService} from './jwt.service';
+import { /* inject, */ BindingScope, injectable, service } from '@loopback/core'
+import { repository } from '@loopback/repository'
+import { Credenciales } from '../models'
+import { UsuarioRepository } from '../repositories'
+import { JwtService } from './jwt.service'
+// TODO?[11]: Importación de módulos para trabajo con "Estrategias".
+var generator = require('generate-password')
+var MD5 = require("crypto-js/md5")
 
 
 @injectable({ scope: BindingScope.TRANSIENT })
@@ -30,8 +33,8 @@ export class SeguridadUsuarioService {
 
     let usuarioValido = await this.usuarioRepository.findOne({
       where: {
-        correo: credenciales.nombreUsuario,
-        clave: credenciales.clave
+        correo: credenciales.correoUsuario,
+        clave: credenciales.claveUsuario
       }
     })
 
@@ -48,10 +51,32 @@ export class SeguridadUsuarioService {
       console.log(res)
 
     }
-
-
-
-
     return ""
+  }
+
+  /**
+   * Genera una clave aleatoria para nuestro usuario.
+   * @returns clave generada
+   */
+  crearClave(): string {
+    let password = generator.generate({
+      length: 10,
+      numbers: true,
+      symbols: true,
+      uppercase: true
+    })
+    return password
+  }
+  
+  /**
+   * Algoritmo de cifrado MD5 que recibe una cadena en texto plano, se cifra como un array de bytes
+   * @param cadena A
+   * @returns 
+   */
+  cifrarClave(cadena: string): string {
+    let cadenaCifrada = MD5(cadena).toString()
+    
+    console.log('| Clave creada: ', cadena, ' | Clave cifrada: ', cadenaCifrada, ' |')
+    return cadenaCifrada
   }
 }

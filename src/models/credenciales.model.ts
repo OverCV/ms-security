@@ -6,14 +6,13 @@ export class Credenciales extends Model {
     type: 'string',
     required: true,
   })
-  nombreUsuario: string;
+  correoUsuario: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  clave: string;
-
+  claveUsuario: string;
 
   constructor(data?: Partial<Credenciales>) {
     super(data);

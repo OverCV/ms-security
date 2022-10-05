@@ -1,5 +1,6 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property, hasMany} from '@loopback/repository';
 import {Rol} from './rol.model';
+import {Login} from './login.model';
 
 @model({settings: {strict: false}})
 export class Usuario extends Entity {
@@ -14,25 +15,13 @@ export class Usuario extends Entity {
     type: 'string',
     required: true,
   })
-  primerNombre: string;
+  nombres: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  segundoNombre: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  primerApellido: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  segundoApellido: string;
+  apellidos: string;
 
   @property({
     type: 'string',
@@ -47,15 +36,15 @@ export class Usuario extends Entity {
   correo: string;
 
   @property({
-    type: 'string',
-    required: true,
+    type: 'string'
   })
-  clave: string;
+  clave?: string;
 
   @belongsTo(() => Rol)
   rolId: string;
 
-
+  @hasMany(() => Login)
+  logins: Login[];
   [prop: string]: any;
 
   constructor(data?: Partial<Usuario>) {
