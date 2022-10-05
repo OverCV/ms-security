@@ -4,7 +4,8 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'mongoDB',
   connector: 'mongodb',
-  url: 'mongodb+srv://securityAdmin:KlqVuFcpfhVwJdNG@cluster0.6gpnf7u.mongodb.net/?retryWrites=true&w=majority',
+  // TODO?[10]: Recordar tras el "mongodb.net/?" se pone el nombre de la basse de datos: "mongodb.net/?".
+  url: 'mongodb+srv://securityAdmin:KlqVuFcpfhVwJdNG@cluster0.6gpnf7u.mongodb.net/SecurityDB?retryWrites=true&w=majority',
   host: 'localhost',
   port: 2707,
   user: '',

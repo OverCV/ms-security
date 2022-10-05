@@ -1,6 +1,6 @@
-import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
-import {Rol} from './rol.model';
-import {Login} from './login.model';
+import { Entity, model, property, belongsTo, hasMany } from '@loopback/repository';
+import { Rol } from './rol.model';
+import { Login } from './login.model';
 
 @model({settings: {strict: false}})
 export class Usuario extends Entity {
@@ -47,11 +47,28 @@ export class Usuario extends Entity {
   })
   correo: string;
 
-  @belongsTo(() => Rol, {name: 'rol'})
-  rolID: string;
+  @property({
+    type: 'string',
+    required: true,
+  })
+  clave: string;
 
-  @hasMany(() => Login, {keyTo: 'usuarioID'})
-  logins: Login[];
+  @belongsTo(() => Rol)
+  rolId: string;
+  
+  /* 
+{
+"primerNombre": "Jenifer",
+"segundoNombre": "Arlona",
+"primerApellido": "Lenin",
+"segundoApellido": "Valenzuela",
+"telefono": "3134567890",
+"correo": "jeniferalv@mail.com",
+"clave": "contrasenaoculta",
+"rolID": "633c7238d1c6a047c4e58b47"
+}
+*/
+
   /* 
     @property({
       type: 'string',

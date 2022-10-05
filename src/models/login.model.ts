@@ -27,8 +27,13 @@ export class Login extends Entity {
   })
   ip?: string;
 
-  @belongsTo(() => Usuario, {name: 'usuario'})
-  usuarioID: string;
+  @belongsTo(() => Usuario)
+  usuarioId: string;
+
+  @property({
+    type: 'string',
+  })
+  rolId?: string;
   // Define well-known properties here
 
   // Indexer property to allow additional data

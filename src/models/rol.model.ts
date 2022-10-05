@@ -1,5 +1,6 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Usuario} from './usuario.model';
+import {Login} from './login.model';
 
 @model({settings: {strict: false}})
 export class Rol extends Entity {
@@ -22,8 +23,11 @@ export class Rol extends Entity {
   })
   descripcion: string;
 
-  @hasMany(() => Usuario, {keyTo: 'rolID'})
+  @hasMany(() => Usuario)
   usuarios: Usuario[];
+
+  @hasMany(() => Login)
+  logins: Login[];
   // Define well-known properties here
 
   // Indexer property to allow additional data
