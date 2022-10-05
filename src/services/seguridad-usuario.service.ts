@@ -1,8 +1,8 @@
-import { injectable, /* inject, */ BindingScope, service } from '@loopback/core';
-import { repository } from '@loopback/repository';
-import { Credenciales } from '../models';
-import { UsuarioRepository } from '../repositories';
-import { JwtService } from './jwt.service';
+import { /* inject, */ BindingScope, injectable, service} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {Credenciales} from '../models';
+import {UsuarioRepository} from '../repositories';
+import {JwtService} from './jwt.service';
 
 
 @injectable({ scope: BindingScope.TRANSIENT })
@@ -29,7 +29,7 @@ export class SeguridadUsuarioService {
     let res = "Credencial inválida"
 
     let usuarioValido = await this.usuarioRepository.findOne({
-      where: {]
+      where: {
         correo: credenciales.nombreUsuario,
         clave: credenciales.clave
       }
